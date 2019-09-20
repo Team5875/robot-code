@@ -14,38 +14,44 @@ tSensors port; // the port of the light sensor to follow with
 int mid; // mid value for light sensors
 int speed; // speed to follow at
 float kP; // kp scales error value (smoothness of line follow)
-bool stopLF; // flag that stops the line following
+bool doLF; // flag that tells the robot to line follow
 
 task SLF() // line follow task. allows to line follow while doing other things
 {
-	if (side == Left)
+	while(true) 
 	{
-		// left side of line case
-		kP = kP*-1; // reverses the kp(scaling) value
-	}
-
-	while(!stopLF)
-	{
-		int error = (getColorReflected(port) - mid)*kP; // calculates an error value and multiplies it by kP to scale it
-		setMotorSpeed(leftMotor, speed - error); // subracts this scaled correction from the desired speed of the left motor
-		setMotorSpeed(rightMotor, speed + error); // adds this scaled correction from the desired speed of the right motor
+		while(dolf)
+		{
+			int error = (getColorReflected(port) - mid)*kP; // calculates an error value and multiplies it by kP to scale it
+			setMotorSpeed(leftMotor, speed - error); // subracts this scaled correction from the desired speed of the left motor
+			setMotorSpeed(rightMotor, speed + error); // adds this scaled correction from the desired speed of the right motor
+		}
 	}
 }
 
 void SmoothLF(Sides s, tSensors p, int m, int spd, float k) // line follow function. starts the SLF task
 {
-	stopLF = false;
-	side = s;
+	side = s; // set all of the line follow variables
 	port = p;
 	mid = m;
 	speed = spd;
 	kP = k;
-	startTask(SLF);
+	if (side == Left)
+	{
+		// left side of line case
+		kP = kP*-1; // reverses the kp(scaling) value
+	}
+	doLF = true; // raise the line follow flag
 }
 
 task main()
 {
+	doLF = false; // make sure the line follow flag is lowered
+	startTask(SLF); // start the SLF task
+	
 	SmoothLF(Right, rightSensor, 30, 30, 0.35);
 	sleep(10000);
-	stopLF = true;
+	
+	doLF = false; // stop line following
+	stopTask(SLF); // end the task (always do this at the end of the code)
 }
