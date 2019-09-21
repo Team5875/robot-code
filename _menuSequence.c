@@ -53,8 +53,8 @@ task main()
 			selected = true;
 
 	}
-	while (!selected); // end of the do-while loop (THIS IS )
+	while (!selected); // end of the do-while loop
 
-	displayCenteredBigTextLine(5, "selected");
+	displayCenteredBigTextLine(5, "selected"); // show that the program was selected (will be replaced with actually running the mission)
 	sleep (2000);
 }
