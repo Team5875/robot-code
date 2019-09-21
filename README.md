@@ -1,5 +1,5 @@
 # robot-code
-Team 5875's robot code=
+Team 5875's robot code
 
 This is all of our robot code. Most of it was written by Sasha or Nikhil. Sasha is the official manager of this repository. If you have any questions that are not answered here, please ask him.
 
