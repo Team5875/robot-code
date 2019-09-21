@@ -12,19 +12,19 @@ void AutoTurn(bool Tank_Pivot, int speed, float degrees, float diameterofWheel, 
 	float travelDist = distBetweenWheels/diameterofWheel*degrees; /* divides the diamter of the bot by the diameterofWheel
 	to get a ratio. This ratio is multiplied by the desired degrees.*/
 
-	if (Tank_Pivot)// Tank Turn Case
+	if (Tank_Pivot) // Tank Turn Case
 	{
 		if (degrees > 0) // case for a clockwise turn
 		{
 			setMotorTarget(leftMotor, travelDist, speed);// turns on the left motor at the desired speed
 			setMotorTarget(rightMotor, travelDist, speed*-1);// turns on the right motor at the desired speed (negated)
-			while(getMotorEncoder(leftMotor) < travelDist) sleep(1);
+			while(getMotorEncoder(leftMotor) < travelDist) sleep(1); // wait for the left motor to get to the destination
 		}
 		else // case for a counter-clockwise turn
 		{
 			setMotorTarget(leftMotor, travelDist, speed*-1);// turns on the right motor at the desired speed (negated)
 			setMotorTarget(rightMotor, travelDist, speed); // turns on the right motor at the desired speed
-			while(getMotorEncoder(rightMotor) < travelDist) sleep(1);
+			while(getMotorEncoder(rightMotor) < travelDist) sleep(1); // wait for the right motor to get to the destination
 		}
 	}
 	else // Pivot turn case
@@ -33,17 +33,17 @@ void AutoTurn(bool Tank_Pivot, int speed, float degrees, float diameterofWheel, 
 		if (degrees > 0) // case for a clockwise turn
 		{
 			setMotorTarget(leftMotor, travelDist, speed); // turns the left motor the desired distance at the desired speed
-			while(getMotorEncoder(leftMotor) < travelDist) sleep(1);
+			while(getMotorEncoder(leftMotor) < travelDist) sleep(1); // wait for the left motor to get to the destination
 		}
 		else // case for a counter-clockwise turn
 		{
 			setMotorTarget(rightMotor, travelDist, speed); // turns the right motor the desired distance at the desired speed
-			while(getMotorEncoder(rightMotor) < travelDist) sleep(1);
+			while(getMotorEncoder(rightMotor) < travelDist) sleep(1); // wait for the right motor to get to the destination
 		}
 	}
 }
+
 task main()
 {
-AutoTurn(true, 30, 180, 5, 9.85);
-
+	AutoTurn(true, 30, 180, 5, 9.85);
 }
