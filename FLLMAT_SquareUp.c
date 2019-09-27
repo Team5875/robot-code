@@ -28,6 +28,8 @@ void SquareUp(int mid1, int mid2, float kP, int acceptance, int speed, bool fron
 			}
 		}
 // Black line coarse adjustment
+		bool Exit1 = false; // exit flags
+		bool Exit2 = false; // both must be true to exit
 		setMotorSpeed(leftMotor, 20);  // enable both motors
 		setMotorSpeed(rightMotor, 20); // to get to the line
 				while(!(Exit1 && Exit2)) // while at least 1 exit flag is false
@@ -47,6 +49,8 @@ void SquareUp(int mid1, int mid2, float kP, int acceptance, int speed, bool fron
 		{
 			// White Line coarse Adjustment
 				kP = kP*-1;
+				bool Exit1 = false; // exit flags
+				bool Exit2 = false; // both must be true to exit
 				setMotorSpeed(leftMotor, 20);  // enable both motors
 				setMotorSpeed(rightMotor, 20); // to get to the line
 			while(!(Exit1 && Exit2)) // while at least 1 exit flag is false
