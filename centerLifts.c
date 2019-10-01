@@ -8,49 +8,60 @@
 
 task main()
 {
-	setMotorSpeed(sidelift, 40);
+	setMotorSpeed(sidelift, 40); // enable both lifts at 40 speed
 	setMotorSpeed(forklift, 40);
 
-	bool exit1 = false;
-	bool exit2 = false;
-	while(!exit1 || !exit2)
+	bool exit1 = false; // exit flags
+	bool exit2 = false; // exit loops when both are raised
+	
+	// reset both lifts up and right
+	while(!exit1 || !exit2) // wait for both exit flags to be raised
 	{
-		int fpos = getMotorEncoder(forklift);
+		int fpos = getMotorEncoder(forklift); // positions of both lifts
 		int spos = getMotorEncoder(sidelift);
-		sleep(250);
+		
+		sleep(250); // wait for 250 ms (this may be able to be lowered)
 
-		if(fpos - getMotorEncoder(forklift) < 1)
+		// this checks if the forklift has reset
+		if(fpos - getMotorEncoder(forklift) < 1) // if the forklift is stalling
 		{
-			exit1 = true;
-			setMotorSpeed(forklift, 0);
+			exit1 = true; // raise the exit flag
+			setMotorSpeed(forklift, 0); // stop the motor
 		}
-		if(spos - getMotorEncoder(sidelift) < 1)
+		
+		// this checks if the sidelift has reset
+		if(spos - getMotorEncoder(sidelift) < 1) // if the sidelift is stalling
 		{
-			exit2 = true;
-			setMotorSpeed(sidelift, 0);
+			exit2 = true; // raise the exit flag
+			setMotorSpeed(sidelift, 0); // stop the motor
 		}
 	}
 
-	resetMotorEncoder(forklift);
+	resetMotorEncoder(forklift); // reset the motor encoders
 	resetMotorEncoder(sidelift);
 
-	exit1 = false;
+	exit1 = false; // reset exit flags
 	exit2 = false;
 
-	setMotorSpeed(sidelift, -40);
+	setMotorSpeed(sidelift, -40); // enable both lifts at -40 speed
 	setMotorSpeed(forklift, -40);
 
+	// reset both lifts down and left
 	while(!exit1 || !exit2)
 	{
-		int fpos = getMotorEncoder(forklift);
+		int fpos = getMotorEncoder(forklift); // get the positions of both lifts
 		int spos = getMotorEncoder(sidelift);
-		sleep(250);
+		
+		sleep(250); // wait
 
-		if(getMotorEncoder(forklift) - fpos < 1)
+		// this checks if the forklift has reset
+		if(getMotorEncoder(forklift) - fpos < 1) // 
 		{
 			exit1 = true;
 			setMotorSpeed(forklift, 0);
 		}
+		
+		
 		if(getMotorEncoder(sidelift) - spos < 1)
 		{
 			exit2 = true;
